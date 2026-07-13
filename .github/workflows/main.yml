@@ -32,8 +32,8 @@ jobs:
 
       - name: Commit trained model artifact to repository
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "github-action"
+          git config --local user.email "7463765+ardianyusuf@users.noreply.github.com"
+          git config --local user.name "Ardian Yusuf"
           git add model.pkl
           git commit -m "chore: update trained model artifact [skip ci]" || echo "No changes to commit"
           git push
