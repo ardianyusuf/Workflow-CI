@@ -28,6 +28,7 @@ def main():
     # Encode categorical features
     X["Sex"] = X["Sex"].map({"male": 0, "female": 1})
     X = pd.get_dummies(X, columns=["Embarked"], drop_first=True)
+    X = X.astype(float)
 
     print(f"Features: {list(X.columns)}")
     print(f"Any NaN remaining: {X.isna().any().any()}")
