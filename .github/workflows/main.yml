@@ -1,39 +1,43 @@
-name: Titanic ML CI Pipeline
+name: CI Model Titanic
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  train-and-store:
+  train_model:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      # checkout repo dulu
+      - name: checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.12
+      # setup python, kelas nyuruh pake 3.12
+      - name: setup python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
-      - name: Install dependencies
+      # install dependencynya
+      - name: install dependency
         run: |
-          python -m pip install --upgrade pip
+          pip install --upgrade pip
           pip install -r MLProject/requirements.txt
 
-      - name: Run MLflow project (re-train model)
-        run: |
-          mlflow run ./MLProject --entry-point main --env-manager local
+      # mulai training modelnya pake mlflow
+      - name: training model
+        run: mlflow run ./MLProject -e main --env-manager local
 
-      - name: Commit trained model artifact to repository
+      # simpan model.pkl hasil training ke repo biar gak ilang
+      - name: simpan model ke repo
         run: |
-          git config --local user.email "7463765+ardianyusuf@users.noreply.github.com"
-          git config --local user.name "Ardian Yusuf"
+          git config user.email "7463765+ardianyusuf@users.noreply.github.com"
+          git config user.name "Ardian Yusuf"
           git add model.pkl
-          git commit -m "chore: update trained model artifact [skip ci]" || echo "No changes to commit"
+          git commit -m "update model hasil training [skip ci]" || echo "tidak ada perubahan"
           git push
